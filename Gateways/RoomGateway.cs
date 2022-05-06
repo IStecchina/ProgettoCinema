@@ -21,6 +21,7 @@ namespace ProgettoCinema.Gateways
         public async Task<List<CinemaRoom>> GetAll()
         {
             return await _context.Rooms
+                .Include(r => r.Cinema)
                 .Include(r => r.Movie)
                 .ToListAsync();
         }
@@ -41,9 +42,11 @@ namespace ProgettoCinema.Gateways
             await _context.SaveChangesAsync();
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var r = await GetById(id);
+            if (r is not null) _context.Rooms.Remove(r);
+            await _context.SaveChangesAsync();
         }
     }
 }

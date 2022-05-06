@@ -15,5 +15,6 @@
     <h5 class="card-title">Movie: @Model.Movie.Title</h5>
 
     @Html.ActionLink("Empty room", "EmptyRoom", new { id = Model.ID }, new { @class = "btn btn-sm btn-outline-danger w-25" })
+    @Html.ActionLink("Delete room", "Delete", new { id = Model.ID }, new { @class = "btn btn-sm btn-outline-danger w-25" })
 
 </div>

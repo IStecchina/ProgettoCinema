@@ -25,7 +25,7 @@ namespace ProgettoCinema.Models
             Room = r;
 
             var cList = new List<SelectListItem>();
-            cinemas.ForEach(c => cList.Add(new SelectListItem { Value = c.Id.ToString(), Text = c.Id.ToString() }));
+            cinemas.ForEach(c => cList.Add(new SelectListItem { Value = c.Id.ToString(), Text = c.Name }));
             Cinemas = cList;
 
             var mList = new List<SelectListItem>();

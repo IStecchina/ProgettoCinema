@@ -74,6 +74,7 @@ namespace ProgettoCinema.Controllers
             try
             {
                 var room = await _gatewayR.GetById(id);
+                if (room is null) throw new Exception();
                 var IdList = new List<int>();
                 //Can't delete items from the collection you're iterating on
                 foreach (var t in room.OccupiedSeats)
@@ -94,6 +95,19 @@ namespace ProgettoCinema.Controllers
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                 });
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _gatewayR.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
     }
