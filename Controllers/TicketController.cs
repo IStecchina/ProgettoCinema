@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProgettoCinema.Abstract;
 using ProgettoCinema.Domain;
 using ProgettoCinema.Exceptions;
 using ProgettoCinema.Gateways;
@@ -14,11 +15,11 @@ namespace ProgettoCinema.Controllers
 {
     public class TicketController : Controller
     {
-        private readonly TicketGateway _gatewayT;
-        private readonly RoomGateway _gatewayR;
-        private readonly CustomerGateway _gatewayC;
+        private readonly IGateway<Ticket> _gatewayT;
+        private readonly IGateway<CinemaRoom> _gatewayR;
+        private readonly IGateway<Customer> _gatewayC;
 
-        public TicketController(TicketGateway gatewayT, RoomGateway gatewayR, CustomerGateway gatewayC)
+        public TicketController(IGateway<Ticket> gatewayT, IGateway<CinemaRoom> gatewayR, IGateway<Customer> gatewayC)
         {
             _gatewayT = gatewayT;
             _gatewayR = gatewayR;
@@ -66,7 +67,7 @@ namespace ProgettoCinema.Controllers
 
                 if (customer is null || room is null) throw new Exception();
 
-                if (customer.Ticket is not null) throw new Exception();
+                if (customer.Ticket is not null) throw new AlreadyHasTicketException();
 
                 var position = room.AddCustomer(customer);
 
@@ -89,6 +90,19 @@ namespace ProgettoCinema.Controllers
             catch (ForbiddenMovieException)
             {
                 return View("TooYoungError");
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _gatewayT.Delete(id);
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {

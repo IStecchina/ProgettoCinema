@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProgettoCinema.Abstract;
 using ProgettoCinema.Domain;
 using ProgettoCinema.Gateways;
 using ProgettoCinema.Models;
@@ -13,15 +14,17 @@ namespace ProgettoCinema.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly RoomGateway _gatewayR;
-        private readonly CinemaGateway _gatewayC;
-        private readonly MovieGateway _gatewayM;
+        private readonly IGateway<CinemaRoom> _gatewayR;
+        private readonly IGateway<Cinema> _gatewayC;
+        private readonly IGateway<Movie> _gatewayM;
+        private readonly IGateway<Ticket> _gatewayT;
 
-        public RoomController(RoomGateway gatewayR, CinemaGateway gatewayC, MovieGateway gatewayM)
+        public RoomController(IGateway<CinemaRoom> gatewayR, IGateway<Cinema> gatewayC, IGateway<Movie> gatewayM, IGateway<Ticket> gatewayT)
         {
             _gatewayR = gatewayR;
             _gatewayC = gatewayC;
             _gatewayM = gatewayM;
+            _gatewayT = gatewayT;
         }
         public async Task<IActionResult> Index()
         {
@@ -63,6 +66,34 @@ namespace ProgettoCinema.Controllers
             catch (Exception)
             {
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
+
+        public async Task<IActionResult> EmptyRoom(int id)
+        {
+            try
+            {
+                var room = await _gatewayR.GetById(id);
+                var IdList = new List<int>();
+                //Can't delete items from the collection you're iterating on
+                foreach (var t in room.OccupiedSeats)
+                {
+                    IdList.Add(t.ID);
+                }
+                foreach (int tId in IdList)
+                {
+                    await _gatewayT.Delete(tId);
+                }
+
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                });
             }
         }
     }

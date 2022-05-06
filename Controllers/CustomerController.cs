@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProgettoCinema.Abstract;
 using ProgettoCinema.Domain;
 using ProgettoCinema.Gateways;
 using ProgettoCinema.Models;
@@ -14,9 +15,9 @@ namespace ProgettoCinema.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly CustomerGateway _gatewayC;
+        private readonly IGateway<Customer> _gatewayC;
 
-        public CustomerController(CustomerGateway gatewayC)
+        public CustomerController(IGateway<Customer> gatewayC)
         {
             _gatewayC = gatewayC;
         }

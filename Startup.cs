@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProgettoCinema.Abstract;
 using ProgettoCinema.DbMiddleware;
+using ProgettoCinema.Domain;
 using ProgettoCinema.Gateways;
 using System;
 using System.Collections.Generic;
@@ -29,11 +31,11 @@ namespace ProgettoCinema
             services.AddControllersWithViews();
             services.AddDbContext<CinemaDbContext>(
              options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
-            services.AddScoped<CinemaGateway>();
-            services.AddScoped<RoomGateway>();
-            services.AddScoped<CustomerGateway>();
-            services.AddScoped<TicketGateway>();
-            services.AddScoped<MovieGateway>();
+            services.AddScoped<IGateway<Cinema>, CinemaGateway>();
+            services.AddScoped<IGateway<CinemaRoom>, RoomGateway>();
+            services.AddScoped<IGateway<Customer>, CustomerGateway>();
+            services.AddScoped<IGateway<Ticket>, TicketGateway>();
+            services.AddScoped<IGateway<Movie>, MovieGateway>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

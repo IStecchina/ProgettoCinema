@@ -14,4 +14,6 @@
     <h5 class="card-title">Customer: @Model.Customer.FullName</h5>
     <h5 class="card-title">Movie: @Model.Room.Movie.Title</h5>
 
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-sm btn-outline-danger w-25" })
+
 </div>

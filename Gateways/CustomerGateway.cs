@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProgettoCinema.Abstract;
 using ProgettoCinema.DbMiddleware;
 using ProgettoCinema.Domain;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProgettoCinema.Gateways
 {
-    public class CustomerGateway
+    public class CustomerGateway : IGateway<Customer>
     {
 
         private readonly CinemaDbContext _context;
@@ -36,6 +37,11 @@ namespace ProgettoCinema.Gateways
         {
             await _context.Customers.AddAsync(c);
             await _context.SaveChangesAsync();
+        }
+
+        public Task Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
