@@ -61,6 +61,27 @@ namespace ProgettoCinema.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var movie = await _gatewayM.GetById(id);
+            return View(movie);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Movie m)
+        {
+            try
+            {
+                await _gatewayM.Update(m);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
+
         public async Task<IActionResult> Delete(int id)
         {
             try
