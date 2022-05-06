@@ -1,0 +1,13 @@
+﻿@model Cinema
+
+@{
+    ViewData["Title"] = "Add a cinema";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    <form class="card" asp-action="Create" asp-controller="Cinema" method="post">
+        <button type="Submit" class="btn btn-sm btn-outline-primary">Create a new cinema</button>
+    </form>
+</div>
