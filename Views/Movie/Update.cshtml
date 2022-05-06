@@ -1,0 +1,29 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Edit a movie";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    <form class="card" asp-action="Create" asp-controller="Movie" method="post">
+
+        <label for="body">Title</label>
+        <input asp-for="Title" type="text" class="form-control" required value="@Model.Title">
+
+        <label for="body">Author</label>
+        <input asp-for="Author" type="text" class="form-control" required value="@Model.Author">
+
+        <label for="body">Producer</label>
+        <input asp-for="Producer" type="text" class="form-control" required value="@Model.Producer">
+
+        <label for="body">Genre</label>
+        <input asp-for="Genre" type="text" class="form-control" required value="@Model.Genre">
+
+        <input asp-for="@Model.Duration" type="hidden" value="@Model.Duration" />
+        <input asp-for="@Model.ID" type="hidden" value="@Model.ID" />
+
+        <button type="Submit" class="btn btn-sm btn-outline-primary">Edit movie</button>
+    </form>
+</div>
