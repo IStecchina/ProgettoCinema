@@ -9,6 +9,7 @@
 
     <h1 class="display-4">@ViewData["Title"]</h1>
     <h5 class="card-title">Id: @Model.ID</h5>
+    <h5 class="card-title">Cinema: @Model.Cinema.Name</h5>
     <h5 class="card-title">Revenue: @Model.GetRevenue()</h5>
     <h5 class="card-title">Total seats: @Model.Seats</h5>
     <h5 class="card-title">Occupied seats: @Model.OccupiedSeats.Count</h5>

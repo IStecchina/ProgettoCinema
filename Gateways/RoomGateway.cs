@@ -30,6 +30,7 @@ namespace ProgettoCinema.Gateways
         {
             return await _context.Rooms
                 .Where(r => r.ID == id)
+                .Include(r => r.Cinema)
                 .Include(r => r.Movie)
                 .Include(r => r.OccupiedSeats)
                 .ThenInclude(t => t.Customer)
