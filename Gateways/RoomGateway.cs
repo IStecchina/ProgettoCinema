@@ -28,7 +28,7 @@ namespace ProgettoCinema.Gateways
         {
             return await _context.Rooms
                 .Include(c => c.Movie)
-                .Include(c => c.Customers)
+                .Include(c => c.OccupiedSeats)
                 .FirstOrDefaultAsync(c => c.ID == id);
         }
 

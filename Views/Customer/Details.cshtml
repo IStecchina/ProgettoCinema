@@ -1,0 +1,29 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Customer details";
+}
+
+<div class="text-center align-items-center">
+
+
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h5 class="card-title">Id: @Model.ID</h5>
+    <h5 class="card-title">Name: @Model.Name @Model.Surname</h5>
+    @if (Model.Ticket is not null)
+    {
+        <h5 class="card-title">
+            Has ticket? Yes
+        </h5>
+    }
+    else
+    {
+        <h5 class="card-title">
+            Has ticket? No
+        </h5>
+        <h5 class="card-title">
+            Ticket: @Model.TicketId
+        </h5>
+    }
+
+</div>

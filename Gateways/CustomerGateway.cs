@@ -8,35 +8,33 @@ using System.Threading.Tasks;
 
 namespace ProgettoCinema.Gateways
 {
-    public class CinemaGateway
+    public class CustomerGateway
     {
+
         private readonly CinemaDbContext _context;
 
-        public CinemaGateway(CinemaDbContext context)
+        public CustomerGateway(CinemaDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Cinema>> GetAll()
+        public async Task<List<Customer>> GetAll()
         {
-            return await _context.Cinemas
+            return await _context.Customers
                 .ToListAsync();
         }
 
-        public async Task<Cinema?> GetById(int id)
+        public async Task<Customer?> GetById(int id)
         {
-            return await _context.Cinemas
-                .Where(c => c.Id == id)
-                .Include(c => c.Rooms)
-                .ThenInclude(r => r.Movie)
+            return await _context.Customers
+                .Where(c => c.ID == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task Create(Cinema c)
+        public async Task Create(Customer c)
         {
-            await _context.Cinemas.AddAsync(c);
+            await _context.Customers.AddAsync(c);
             await _context.SaveChangesAsync();
         }
-
     }
 }

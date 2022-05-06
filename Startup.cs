@@ -31,6 +31,8 @@ namespace ProgettoCinema
              options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
             services.AddScoped<CinemaGateway>();
             services.AddScoped<RoomGateway>();
+            services.AddScoped<CustomerGateway>();
+            services.AddScoped<TicketGateway>();
             services.AddScoped<MovieGateway>();
         }
 

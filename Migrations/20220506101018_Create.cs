@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProgettoCinema.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,20 +37,6 @@ namespace ProgettoCinema.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Position = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tickets", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
@@ -74,7 +60,28 @@ namespace ProgettoCinema.Migrations
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    Position = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,8 +90,7 @@ namespace ProgettoCinema.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TicketId = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: true),
+                    TicketId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -92,12 +98,6 @@ namespace ProgettoCinema.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Customers_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Customers_Tickets_TicketId",
                         column: x => x.TicketId,
@@ -107,15 +107,11 @@ namespace ProgettoCinema.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_RoomId",
-                table: "Customers",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Customers_TicketId",
                 table: "Customers",
                 column: "TicketId",
-                unique: true);
+                unique: true,
+                filter: "[TicketId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_CinemaId",
@@ -126,6 +122,11 @@ namespace ProgettoCinema.Migrations
                 name: "IX_Rooms_MovieId",
                 table: "Rooms",
                 column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_RoomId",
+                table: "Tickets",
+                column: "RoomId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -134,10 +135,10 @@ namespace ProgettoCinema.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "Cinemas");

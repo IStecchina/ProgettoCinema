@@ -9,29 +9,30 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace ProgettoCinema.Controllers
 {
-    public class CinemaController : Controller
+    public class CustomerController : Controller
     {
-        private readonly CinemaGateway _gatewayC;
+        private readonly CustomerGateway _gatewayC;
 
-        public CinemaController(CinemaGateway gatewayC)
+        public CustomerController(CustomerGateway gatewayC)
         {
             _gatewayC = gatewayC;
         }
 
         public async Task<IActionResult> Index()
         {
-            var cinemas = await _gatewayC.GetAll();
-            return View(cinemas);
+            var customers = await _gatewayC.GetAll();
+            return View(customers);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var cinema = await _gatewayC.GetById(id);
-            if (cinema is not null)
+            var customer = await _gatewayC.GetById(id);
+            if (customer is not null)
             {
-                return View(cinema);
+                return View(customer);
             }
             else
             {
@@ -42,11 +43,11 @@ namespace ProgettoCinema.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new Cinema());
+            return View(new Customer());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Cinema c)
+        public async Task<IActionResult> Create(Customer c)
         {
             try
             {

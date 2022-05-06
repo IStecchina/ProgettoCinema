@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProgettoCinema.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,7 +24,7 @@ namespace ProgettoCinema.Domain
         public virtual Cinema Cinema { get; init; } = null!;
 
         [InverseProperty("Room")]
-        public virtual List<Customer> Customers { get; init; } = null!;
+        public virtual List<Ticket> OccupiedSeats { get; init; } = null!;
         //Non-relational
         public int Seats { get; init; }
 
@@ -31,17 +32,28 @@ namespace ProgettoCinema.Domain
         public void Empty()
         {
             //TODO
+            //Delete all tickets that are in OccupiedSeats
         }
 
         public void AddCustomer(Customer c)
         {
-            //TODO
+            //Exception if room is full, or if movie is horror and customer is too young
+            if (OccupiedSeats.Count >= Seats) {
+                throw new FullRoomException();
+            }
+            if(Movie.Genre == "Horror" && c.IsTooYoungForHorror)
+            {
+                throw new ForbiddenMovieException();
+            }
         }
 
         public decimal GetRevenue()
         {
-            //TODO
-            return 0;
+            decimal revenue = 0;
+            foreach (var ticket in OccupiedSeats) {
+                revenue += ticket.ActualPrice;
+            }
+            return revenue;
         }
     }
 }

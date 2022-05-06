@@ -1,0 +1,25 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Add a customer";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    <form class="card" asp-action="Create" asp-controller="Customer" method="post">
+
+        <label for="body">Name</label>
+        <input asp-for="Name" type="text" class="form-control" required placeholder="Insert a name here">
+
+        <label for="body">Surname</label>
+        <input asp-for="Surname" type="text" class="form-control" required placeholder="Insert a surname here">
+
+        <label for="body">Birth Date</label>
+        <input asp-for="BirthDate" type="date" class="form-control" required placeholder="Insert a date here">
+
+        <div> Customers start without a ticket</div>
+
+        <button type="Submit" class="btn btn-sm btn-outline-primary">Create customer</button>
+    </form>
+</div>

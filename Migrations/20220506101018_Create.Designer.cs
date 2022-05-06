@@ -10,8 +10,8 @@ using ProgettoCinema.DbMiddleware;
 namespace ProgettoCinema.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    [Migration("20220506081841_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220506101018_Create")]
+    partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,22 +72,18 @@ namespace ProgettoCinema.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TicketId")
+                    b.Property<int?>("TicketId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RoomId");
-
                     b.HasIndex("TicketId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[TicketId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -136,7 +132,12 @@ namespace ProgettoCinema.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Tickets");
                 });
@@ -162,19 +163,22 @@ namespace ProgettoCinema.Migrations
 
             modelBuilder.Entity("ProgettoCinema.Domain.Customer", b =>
                 {
-                    b.HasOne("ProgettoCinema.Domain.CinemaRoom", "Room")
-                        .WithMany("Customers")
-                        .HasForeignKey("RoomId");
-
                     b.HasOne("ProgettoCinema.Domain.Ticket", "Ticket")
                         .WithOne("Customer")
-                        .HasForeignKey("ProgettoCinema.Domain.Customer", "TicketId")
+                        .HasForeignKey("ProgettoCinema.Domain.Customer", "TicketId");
+
+                    b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("ProgettoCinema.Domain.Ticket", b =>
+                {
+                    b.HasOne("ProgettoCinema.Domain.CinemaRoom", "Room")
+                        .WithMany("OccupiedSeats")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
-
-                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("ProgettoCinema.Domain.Cinema", b =>
@@ -184,7 +188,7 @@ namespace ProgettoCinema.Migrations
 
             modelBuilder.Entity("ProgettoCinema.Domain.CinemaRoom", b =>
                 {
-                    b.Navigation("Customers");
+                    b.Navigation("OccupiedSeats");
                 });
 
             modelBuilder.Entity("ProgettoCinema.Domain.Ticket", b =>

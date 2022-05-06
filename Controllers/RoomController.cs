@@ -13,14 +13,12 @@ namespace ProgettoCinema.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly ILogger<CinemaController> _logger;
         private readonly RoomGateway _gatewayR;
         private readonly CinemaGateway _gatewayC;
         private readonly MovieGateway _gatewayM;
 
-        public RoomController(ILogger<CinemaController> logger, RoomGateway gatewayR, CinemaGateway gatewayC, MovieGateway gatewayM)
+        public RoomController(RoomGateway gatewayR, CinemaGateway gatewayC, MovieGateway gatewayM)
         {
-            _logger = logger;
             _gatewayR = gatewayR;
             _gatewayC = gatewayC;
             _gatewayM = gatewayM;
