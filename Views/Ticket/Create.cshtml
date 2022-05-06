@@ -1,0 +1,23 @@
+﻿@model RoomCreationModel
+
+@{
+    ViewData["Title"] = "Add a cinema room";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    <form class="card" asp-action="Create" asp-controller="Room" method="post">
+
+        <label>Select the cinema</label>
+        @Html.DropDownListFor(x => x.Room.CinemaId, Model.Cinemas, null, new { required = "required", @class = "form-control text-center myInput" })
+
+        <label>Select the movie</label>
+        @Html.DropDownListFor(x => x.Room.MovieId, Model.Movies, null, new { required = "required", @class = "form-control text-center myInput" })
+
+        <label for="body">Seats</label>
+        <input asp-for="Room.Seats" type="number" class="form-control" required placeholder="Insert the amount of seats">
+
+        <button type="Submit" class="btn btn-sm btn-outline-primary">Create a new room</button>
+    </form>
+</div>

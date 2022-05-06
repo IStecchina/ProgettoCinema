@@ -1,0 +1,35 @@
+﻿@model List<CinemaRoom>
+
+@{
+    ViewData["Title"] = "List of cinema rooms";
+}
+
+<div class="text-center align-items-center">
+
+    <div class="ButtonRow">
+        @Html.ActionLink("Create a new room", "Create", new {}, new { @class = "btn btn-sm btn-outline-primary w-25 me-3 btn btn-light" })
+    </div>
+
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <ul class="list-group list-group-flush myList">
+        @foreach (var room in Model)
+        {
+
+            <li class="list-group-item bg-transparent">
+
+                <div class="card">
+
+                    <div class="d-flex flex-column card-body">
+
+                        <h5 class="card-title">@room.ID</h5>
+                        <h5 class="card-title">@room.CinemaId</h5>
+                        <h5 class="card-title">@room.Movie.Title</h5>
+                        <div class="ButtonRow">
+                            @Html.ActionLink("See Details", "Details", new { id = room.ID }, new { @class = "btn btn-sm btn-outline-primary w-25 me-3 btn btn-light" })
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
