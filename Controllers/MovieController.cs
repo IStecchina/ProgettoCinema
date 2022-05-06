@@ -11,29 +11,29 @@ using System.Threading.Tasks;
 
 namespace ProgettoCinema.Controllers
 {
-    public class CinemaController : Controller
+    public class MovieController : Controller
     {
         private readonly ILogger<CinemaController> _logger;
-        private readonly CinemaGateway _gatewayC;
+        private readonly MovieGateway _gatewayM;
 
-        public CinemaController(ILogger<CinemaController> logger, CinemaGateway gatewayC)
+        public MovieController(ILogger<CinemaController> logger, MovieGateway gatewayM)
         {
             _logger = logger;
-            _gatewayC = gatewayC;
+            _gatewayM = gatewayM;
         }
 
         public async Task<IActionResult> Index()
         {
-            var cinemas = await _gatewayC.GetAll();
-            return View(cinemas);
+            var movies = await _gatewayM.GetAll();
+            return View(movies);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var cinema = await _gatewayC.GetById(id);
-            if (cinema is not null)
+            var movie = await _gatewayM.GetById(id);
+            if (movie is not null)
             {
-                return View(cinema);
+                return View(movie);
             }
             else
             {
@@ -44,15 +44,15 @@ namespace ProgettoCinema.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new Cinema());
+            return View(new Movie());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Cinema c)
+        public async Task<IActionResult> Create(Movie m)
         {
             try
             {
-                await _gatewayC.Create(c);
+                await _gatewayM.Create(m);
                 return RedirectToAction("Index");
             }
             catch (Exception)

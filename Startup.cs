@@ -30,6 +30,8 @@ namespace ProgettoCinema
             services.AddDbContext<CinemaDbContext>(
              options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
             services.AddScoped<CinemaGateway>();
+            services.AddScoped<RoomGateway>();
+            services.AddScoped<MovieGateway>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

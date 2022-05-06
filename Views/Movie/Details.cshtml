@@ -1,0 +1,18 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Movie details";
+}
+
+<div class="text-center align-items-center">
+
+
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h5 class="card-title">Id: @Model.ID</h5>
+    <h5 class="card-title">Title: @Model.Title</h5>
+    <h5 class="card-title">Author: @Model.Author</h5>
+    <h5 class="card-title">Producer: @Model.Producer</h5>
+    <h5 class="card-title">Genre: @Model.Genre</h5>
+    <h5 class="card-title">Duration: @Model.Duration</h5>
+
+</div>

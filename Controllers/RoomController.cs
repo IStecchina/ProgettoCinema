@@ -11,29 +11,32 @@ using System.Threading.Tasks;
 
 namespace ProgettoCinema.Controllers
 {
-    public class CinemaController : Controller
+    public class RoomController : Controller
     {
         private readonly ILogger<CinemaController> _logger;
+        private readonly RoomGateway _gatewayR;
         private readonly CinemaGateway _gatewayC;
+        private readonly MovieGateway _gatewayM;
 
-        public CinemaController(ILogger<CinemaController> logger, CinemaGateway gatewayC)
+        public RoomController(ILogger<CinemaController> logger, RoomGateway gatewayR, CinemaGateway gatewayC, MovieGateway gatewayM)
         {
             _logger = logger;
+            _gatewayR = gatewayR;
             _gatewayC = gatewayC;
+            _gatewayM = gatewayM;
         }
-
         public async Task<IActionResult> Index()
         {
-            var cinemas = await _gatewayC.GetAll();
-            return View(cinemas);
+            var rooms = await _gatewayR.GetAll();
+            return View(rooms);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var cinema = await _gatewayC.GetById(id);
-            if (cinema is not null)
+            var room = await _gatewayR.GetById(id);
+            if (room is not null)
             {
-                return View(cinema);
+                return View(room);
             }
             else
             {
@@ -42,17 +45,21 @@ namespace ProgettoCinema.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(new Cinema());
+            var cinemas = await _gatewayC.GetAll();
+            var movies = await _gatewayM.GetAll();
+            var model = new RoomCreationModel(new CinemaRoom(), cinemas, movies);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Cinema c)
+        public async Task<IActionResult> Create(RoomCreationModel r)
         {
             try
             {
-                await _gatewayC.Create(c);
+                var room = r.Room;
+                await _gatewayR.Create(room);
                 return RedirectToAction("Index");
             }
             catch (Exception)
