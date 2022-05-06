@@ -60,5 +60,18 @@ namespace ProgettoCinema.Controllers
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _gatewayC.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
     }
 }

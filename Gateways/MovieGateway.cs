@@ -37,9 +37,11 @@ namespace ProgettoCinema.Gateways
             await _context.SaveChangesAsync();
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var m = await GetById(id);
+            if (m is not null) _context.Movies.Remove(m);
+            await _context.SaveChangesAsync();
         }
     }
 }

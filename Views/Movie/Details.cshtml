@@ -15,4 +15,6 @@
     <h5 class="card-title">Genre: @Model.Genre</h5>
     <h5 class="card-title">Duration: @Model.Duration</h5>
 
+    @Html.ActionLink("Delete movie", "Delete", new { id = Model.ID }, new { @class = "btn btn-sm btn-outline-danger w-25" })
+
 </div>

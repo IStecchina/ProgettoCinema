@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ProgettoCinema.Abstract;
 using ProgettoCinema.Domain;
+using ProgettoCinema.Exceptions;
 using ProgettoCinema.Gateways;
 using ProgettoCinema.Models;
 using System;
@@ -52,6 +53,19 @@ namespace ProgettoCinema.Controllers
             try
             {
                 await _gatewayM.Create(m);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _gatewayM.Delete(id);
                 return RedirectToAction("Index");
             }
             catch (Exception)
