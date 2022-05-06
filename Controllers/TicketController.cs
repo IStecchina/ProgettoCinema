@@ -67,7 +67,9 @@ namespace ProgettoCinema.Controllers
 
                 if (customer is null || room is null) throw new Exception();
 
-                if (customer.Ticket is not null) throw new AlreadyHasTicketException();
+                //Each customer can only hold one ticket at a time
+                //Override older ticket if there is one
+                if (customer.Ticket is not null) await _gatewayT.Delete(customer.Ticket.ID);
 
                 var position = room.AddCustomer(customer);
 
