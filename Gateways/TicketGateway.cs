@@ -26,7 +26,11 @@ namespace ProgettoCinema.Gateways
         public async Task<Ticket?> GetById(int id)
         {
             return await _context.Tickets
-                .FirstOrDefaultAsync(t => t.ID == id);
+                .Where(t => t.ID == id)
+                .Include(t => t.Customer)
+                .Include(t => t.Room)
+                .ThenInclude(r => r.Movie)
+                .FirstOrDefaultAsync();
         }
 
         public async Task Create(Ticket t)

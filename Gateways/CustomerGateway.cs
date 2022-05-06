@@ -28,6 +28,7 @@ namespace ProgettoCinema.Gateways
         {
             return await _context.Customers
                 .Where(c => c.ID == id)
+                .Include(c => c.Ticket)
                 .FirstOrDefaultAsync();
         }
 

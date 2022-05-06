@@ -14,8 +14,7 @@ namespace ProgettoCinema.Domain
         [Key]
         public int ID { get; init; }
 
-        public int? TicketId { get; init; }
-        [ForeignKey("TicketId")]
+        [InverseProperty("Customer")]
         public virtual Ticket? Ticket { get; init; }
 
         //Non-relational
@@ -27,6 +26,8 @@ namespace ProgettoCinema.Domain
         public DateTime BirthDate { get; init; }
 
         public bool HasTicket => Ticket is not null;
+
+        public string FullName => $"{Name} {Surname}";
 
         public int GetAge()
         {

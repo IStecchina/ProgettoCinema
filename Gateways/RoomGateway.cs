@@ -20,21 +20,23 @@ namespace ProgettoCinema.Gateways
         public async Task<List<CinemaRoom>> GetAll()
         {
             return await _context.Rooms
-                .Include(c => c.Movie)
+                .Include(r => r.Movie)
                 .ToListAsync();
         }
 
         public async Task<CinemaRoom?> GetById(int id)
         {
             return await _context.Rooms
-                .Include(c => c.Movie)
-                .Include(c => c.OccupiedSeats)
-                .FirstOrDefaultAsync(c => c.ID == id);
+                .Where(r => r.ID == id)
+                .Include(r => r.Movie)
+                .Include(r => r.OccupiedSeats)
+                .ThenInclude(t => t.Customer)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task Create(CinemaRoom c)
+        public async Task Create(CinemaRoom r)
         {
-            await _context.Rooms.AddAsync(c);
+            await _context.Rooms.AddAsync(r);
             await _context.SaveChangesAsync();
         }
     }

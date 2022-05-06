@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProgettoCinema.Domain;
+using ProgettoCinema.Exceptions;
 using ProgettoCinema.Gateways;
 using ProgettoCinema.Models;
 using System;
@@ -56,9 +57,38 @@ namespace ProgettoCinema.Controllers
         {
             try
             {
-                var ticket = t.Ticket;
-                await _gatewayT.Create(ticket);
+                var partialTicket = t.Ticket;
+
+                if (partialTicket.Price <= 0) throw new Exception();
+
+                var customer = await _gatewayC.GetById(partialTicket.CustomerId);
+                var room = await _gatewayR.GetById(partialTicket.RoomId);
+
+                if (customer is null || room is null) throw new Exception();
+
+                if (customer.Ticket is not null) throw new Exception();
+
+                var position = room.AddCustomer(customer);
+
+                var finalizedTicket = new Ticket()
+                {
+                    CustomerId = partialTicket.CustomerId,
+                    RoomId = partialTicket.RoomId,
+                    Price = partialTicket.Price,
+
+                    Position = position
+                };
+
+                await _gatewayT.Create(finalizedTicket);
                 return RedirectToAction("Index");
+            }
+            catch (FullRoomException)
+            {
+                return View("RoomFullError");
+            }
+            catch (ForbiddenMovieException)
+            {
+                return View("TooYoungError");
             }
             catch (Exception)
             {

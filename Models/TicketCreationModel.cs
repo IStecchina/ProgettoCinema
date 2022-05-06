@@ -30,7 +30,7 @@ namespace ProgettoCinema.Models
             Rooms = rList;
 
             var cList = new List<SelectListItem>();
-            customers.ForEach(c => cList.Add(new SelectListItem { Value = c.ID.ToString(), Text = $"{c.Name} {c.Surname}" }));
+            customers.ForEach(c => cList.Add(new SelectListItem { Value = c.ID.ToString(), Text = c.FullName }));
             Customers = cList;
         }
     }

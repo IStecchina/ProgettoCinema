@@ -29,6 +29,9 @@ namespace ProgettoCinema.Gateways
                 .Where(c => c.Id == id)
                 .Include(c => c.Rooms)
                 .ThenInclude(r => r.Movie)
+                .Include(c => c.Rooms)
+                .ThenInclude(r => r.OccupiedSeats)
+                .ThenInclude(t => t.Customer)
                 .FirstOrDefaultAsync();
         }
 

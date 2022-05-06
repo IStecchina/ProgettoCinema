@@ -26,12 +26,13 @@ namespace ProgettoCinema.Gateways
         public async Task<Movie?> GetById(int id)
         {
             return await _context.Movies
-                .FirstOrDefaultAsync(c => c.ID == id);
+                .Where(m => m.ID == id)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task Create(Movie c)
+        public async Task Create(Movie m)
         {
-            await _context.Movies.AddAsync(c);
+            await _context.Movies.AddAsync(m);
             await _context.SaveChangesAsync();
         }
     }

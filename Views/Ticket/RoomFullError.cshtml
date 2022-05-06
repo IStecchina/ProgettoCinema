@@ -1,0 +1,14 @@
+﻿@model Ticket
+
+@{
+    ViewData["Title"] = "Full room";
+}
+
+<div class="text-center align-items-center">
+
+
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h5 class="card-title">Sorry, but the room is full</h5>
+    @Html.ActionLink("Return to index", "Index", new { }, new { @class = "btn btn-sm btn-outline-primary w-25 me-3 btn btn-light" })
+
+</div>

@@ -14,7 +14,8 @@ namespace ProgettoCinema.Domain
         [Key]
         public int ID { get; init; }
 
-        [InverseProperty("Ticket")]
+        public int CustomerId { get; init; }
+        [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; init; } = null!;
 
         public int RoomId { get; init; }
@@ -29,8 +30,9 @@ namespace ProgettoCinema.Domain
         //Price including discounts
         public decimal ActualPrice => ApplyDiscountsIfApplicable(Price);
 
-        public decimal ApplyDiscountsIfApplicable(decimal basePrice)
+        private decimal ApplyDiscountsIfApplicable(decimal basePrice)
         {
+            if (Customer is null) return basePrice;
             decimal discount = 0;
             if (Customer.IsOldEnoughForDiscount) discount = 0.1m * basePrice;
             if (Customer.IsYoungEnoughForDiscount) discount = 0.5m * basePrice;

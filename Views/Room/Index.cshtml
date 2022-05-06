@@ -21,9 +21,9 @@
 
                     <div class="d-flex flex-column card-body">
 
-                        <h5 class="card-title">@room.ID</h5>
-                        <h5 class="card-title">@room.CinemaId</h5>
-                        <h5 class="card-title">@room.Movie.Title</h5>
+                        <h5 class="card-title">Room: @room.ID</h5>
+                        <h5 class="card-title">Cinema: @room.CinemaId</h5>
+                        <h5 class="card-title">Movie: @room.Movie.Title</h5>
                         <div class="ButtonRow">
                             @Html.ActionLink("See Details", "Details", new { id = room.ID }, new { @class = "btn btn-sm btn-outline-primary w-25 me-3 btn btn-light" })
                         </div>

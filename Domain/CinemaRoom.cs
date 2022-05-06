@@ -35,7 +35,7 @@ namespace ProgettoCinema.Domain
             //Delete all tickets that are in OccupiedSeats
         }
 
-        public void AddCustomer(Customer c)
+        public int AddCustomer(Customer c)
         {
             //Exception if room is full, or if movie is horror and customer is too young
             if (OccupiedSeats.Count >= Seats) {
@@ -45,6 +45,7 @@ namespace ProgettoCinema.Domain
             {
                 throw new ForbiddenMovieException();
             }
+            return OccupiedSeats.Count + 1;
         }
 
         public decimal GetRevenue()

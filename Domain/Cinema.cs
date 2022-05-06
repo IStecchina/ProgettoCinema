@@ -17,6 +17,9 @@ namespace ProgettoCinema.Domain
         [InverseProperty("Cinema")]
         public List<CinemaRoom> Rooms { get; init; } = null!;
 
+        //Non-relational
+        public string Name { get; init; } = null!;
+
         public decimal GetRevenue()
         {
             return Rooms.Sum(r => r.GetRevenue());

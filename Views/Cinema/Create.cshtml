@@ -8,6 +8,9 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 
     <form class="card" asp-action="Create" asp-controller="Cinema" method="post">
+        <label for="body">Name</label>
+        <input asp-for="Name" type="text" class="form-control" required placeholder="Insert a name for the new cinema">
+
         <button type="Submit" class="btn btn-sm btn-outline-primary">Create a new cinema</button>
     </form>
 </div>

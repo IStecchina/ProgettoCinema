@@ -8,6 +8,7 @@
 
 
     <h1 class="display-4">@ViewData["Title"]</h1>
+    <h5 class="card-title">@Model.Name</h5>
     <h5 class="card-title">Cinema Id: @Model.Id</h5>
     <h5 class="card-title">Cinema Revenue: @Model.GetRevenue()</h5>
     <h5 class="card-title">Room count: @Model.Rooms.Count()</h5>
@@ -22,9 +23,9 @@
 
                     <div class="d-flex flex-column card-body">
 
-                        <h5 class="card-title">@room.ID</h5>
-                        <h5 class="card-title">@room.Seats</h5>
-                        <h5 class="card-title">@room.Movie.Title</h5>
+                        <h5 class="card-title">Room Id: @room.ID</h5>
+                        <h5 class="card-title">Number of seats: @room.Seats</h5>
+                        <h5 class="card-title">Movie: @room.Movie.Title</h5>
                     </div>
                 </div>
             </li>

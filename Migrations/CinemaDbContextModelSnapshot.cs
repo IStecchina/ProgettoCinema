@@ -26,6 +26,10 @@ namespace ProgettoCinema.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Cinemas");
@@ -74,14 +78,7 @@ namespace ProgettoCinema.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TicketId")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("TicketId")
-                        .IsUnique()
-                        .HasFilter("[TicketId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -124,6 +121,9 @@ namespace ProgettoCinema.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
@@ -134,6 +134,9 @@ namespace ProgettoCinema.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.HasIndex("RoomId");
 
@@ -159,22 +162,21 @@ namespace ProgettoCinema.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("ProgettoCinema.Domain.Customer", b =>
-                {
-                    b.HasOne("ProgettoCinema.Domain.Ticket", "Ticket")
-                        .WithOne("Customer")
-                        .HasForeignKey("ProgettoCinema.Domain.Customer", "TicketId");
-
-                    b.Navigation("Ticket");
-                });
-
             modelBuilder.Entity("ProgettoCinema.Domain.Ticket", b =>
                 {
+                    b.HasOne("ProgettoCinema.Domain.Customer", "Customer")
+                        .WithOne("Ticket")
+                        .HasForeignKey("ProgettoCinema.Domain.Ticket", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProgettoCinema.Domain.CinemaRoom", "Room")
                         .WithMany("OccupiedSeats")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Room");
                 });
@@ -189,10 +191,9 @@ namespace ProgettoCinema.Migrations
                     b.Navigation("OccupiedSeats");
                 });
 
-            modelBuilder.Entity("ProgettoCinema.Domain.Ticket", b =>
+            modelBuilder.Entity("ProgettoCinema.Domain.Customer", b =>
                 {
-                    b.Navigation("Customer")
-                        .IsRequired();
+                    b.Navigation("Ticket");
                 });
 #pragma warning restore 612, 618
         }

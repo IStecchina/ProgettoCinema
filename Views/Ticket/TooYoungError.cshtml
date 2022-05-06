@@ -1,0 +1,14 @@
+﻿@model Ticket
+
+@{
+    ViewData["Title"] = "Horror movies are 14+";
+}
+
+<div class="text-center align-items-center">
+
+
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h5 class="card-title">Sorry, but you're too young to watch that movie</h5>
+    @Html.ActionLink("Return to index", "Index", new { }, new { @class = "btn btn-sm btn-outline-primary w-25 me-3 btn btn-light" })
+
+</div>
