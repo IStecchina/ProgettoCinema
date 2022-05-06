@@ -8,10 +8,10 @@
 
 
     <h1 class="display-4">@ViewData["Title"]</h1>
-    <h5 class="card-title">@Model.Name</h5>
-    <h5 class="card-title">Cinema Id: @Model.Id</h5>
-    <h5 class="card-title">Cinema Revenue: @Model.GetRevenue()</h5>
-    <h5 class="card-title">Room count: @Model.Rooms.Count()</h5>
+    <h2 class="card-title">@Model.Name</h2>
+    <h3 class="card-title">Cinema Id: @Model.Id</h3>
+    <h3 class="card-title">Cinema Revenue: @Model.GetRevenue()</h3>
+    <h3 class="card-title">Room count: @Model.Rooms.Count()</h3>
 
     <ul class="list-group list-group-flush myList">
         @foreach (var room in Model.Rooms)
