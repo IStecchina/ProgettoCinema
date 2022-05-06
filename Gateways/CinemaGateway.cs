@@ -42,6 +42,12 @@ namespace ProgettoCinema.Gateways
             await _context.SaveChangesAsync();
         }
 
+        public async Task Update(Cinema c)
+        {
+            _context.Cinemas.Update(c);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task Delete(int id)
         {
             var c = await GetById(id);

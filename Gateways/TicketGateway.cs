@@ -40,6 +40,12 @@ namespace ProgettoCinema.Gateways
             await _context.SaveChangesAsync();
         }
 
+        public async Task Update(Ticket t)
+        {
+            _context.Tickets.Update(t);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task Delete(int id)
         {
             var t = await GetById(id);

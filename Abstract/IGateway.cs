@@ -10,7 +10,7 @@ namespace ProgettoCinema.Abstract
         Task<List<T>> GetAll();
         Task<T?> GetById(int id);
         Task Create(T t);
-        //Task Update(T t);
+        Task Update(T t);
         Task Delete(int id);
     }
 }
